@@ -11,6 +11,9 @@ namespace BookCollectionAPI.Models
         public string Headline { get; set; }
         public string ReviewText { get; set; }
         public int Rating { get; set; }
+        public virtual Reviewer Reviewer { get; set; }
+        public virtual Book Book { get; set; }
+
 
     }
 }
