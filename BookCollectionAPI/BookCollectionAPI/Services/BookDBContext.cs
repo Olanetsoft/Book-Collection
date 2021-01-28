@@ -9,7 +9,7 @@ namespace BookCollectionAPI.Services
 {
     public class BookDBContext : DbContext
     {
-        public BookDBContext(DbContextOptions<DbContext> options)
+        public BookDBContext(DbContextOptions<BookDBContext> options)
             : base(options)
         {
             Database.Migrate();
