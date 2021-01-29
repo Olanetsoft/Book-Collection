@@ -1,4 +1,5 @@
-﻿using BookCollectionAPI.Services;
+﻿using BookCollectionAPI.Dtos;
+using BookCollectionAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,21 @@ namespace BookCollectionAPI.Controllers
         [HttpGet]
         public IActionResult GetCountries()
         {
+            // get countries
             var countries = _countryRepository.GetCountries().ToList();
 
-            return Ok(countries);
+            // using countries dto
+            var countriesDto = new List<CountryDto>();
+            foreach(var country in countries)
+            {
+                countriesDto.Add(new CountryDto
+                {
+                    Id = country.Id,
+                    Name = country.Name
+                });
+            }
+
+            return Ok(countriesDto);
         }
     }
 }
