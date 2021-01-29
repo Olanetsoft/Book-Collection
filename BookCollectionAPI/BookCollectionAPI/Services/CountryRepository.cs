@@ -32,11 +32,6 @@ namespace BookCollectionAPI.Services
             return _countryContext.Countries.OrderBy(c => c.Name).ToList();
         }
 
-        public ICollection<Country> GetCountries(int countryId)
-        {
-            throw new NotImplementedException();
-        }
-
         public Country GetCountry(int countryId)
         {
             return _countryContext.Countries.Where(c => c.Id == countryId).FirstOrDefault();
