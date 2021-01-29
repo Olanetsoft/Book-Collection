@@ -22,12 +22,18 @@ namespace BookCollectionAPI.Controllers
 
         // api/countries
         [HttpGet]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200,Type = typeof(IEnumerable<CountryDto>))]
         public IActionResult GetCountries()
         {
             // get countries
             var countries = _countryRepository.GetCountries().ToList();
 
-            // using countries dto
+            //Validate if the model state is valid
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // using countries dto to return only the needed value
             var countriesDto = new List<CountryDto>();
             foreach(var country in countries)
             {
