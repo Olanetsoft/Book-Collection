@@ -78,5 +78,37 @@ namespace BookCollectionAPI.Controllers
 
             return Ok(countryDto);
         }
+
+
+        // api/countries/authors/authorId
+        [HttpGet("authors/{authorId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(CountryDto))]
+        [ProducesResponseType(404)]
+
+        public IActionResult GetCountryOfAnAuthor(int authorId)
+        {
+            ////check if exist
+            //if (!_countryRepository.CountryExists(countryId))
+            //    return NotFound();
+
+            // get country
+            var country = _countryRepository.GetCountryOfAnAuthor(authorId);
+
+
+            //Validate if the model state is valid
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // using countries dto to return only the needed value
+            var countryDto = new CountryDto()
+            {
+                Id = country.Id,
+                Name = country.Name
+            };
+
+
+            return Ok(countryDto);
+        }
     }
 }
