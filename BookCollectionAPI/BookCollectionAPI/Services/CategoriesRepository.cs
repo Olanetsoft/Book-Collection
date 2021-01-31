@@ -8,9 +8,18 @@ namespace BookCollectionAPI.Services
 {
     public class CategoriesRepository : ICategoriesRepository
     {
+        // Create a private variable to get access to db context
+        private BookDBContext _categoryContext;
+
+        // a constructor
+        public CategoriesRepository(BookDBContext categoryContext)
+        {
+            _categoryContext = categoryContext;
+        }
+
         public bool CategoryExists(int categoryId)
         {
-            throw new NotImplementedException();
+            return _categoryContext.Countries.Any(c => c.Id == categoryId);
         }
 
         public ICollection<BookCategory> GetBooksForCategory(int categoryId)
@@ -20,7 +29,7 @@ namespace BookCollectionAPI.Services
 
         public ICollection<Category> GetCategories()
         {
-            throw new NotImplementedException();
+            return _categoryContext.Categories.OrderBy(c => c.Name).ToList();
         }
 
         public ICollection<BookCategory> GetCategoriesOfABook(int bookId)
@@ -30,7 +39,7 @@ namespace BookCollectionAPI.Services
 
         public Category GetCatgory(int categoryId)
         {
-            throw new NotImplementedException();
+            return _categoryContext.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
         }
     }
 }
