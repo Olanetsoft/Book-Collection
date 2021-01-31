@@ -32,6 +32,9 @@ namespace BookCollectionAPI
 
             // service for country
             services.AddScoped<ICountryRepository, CountryRepository>();
+
+            // service for category
+            services.AddScoped<ICategoriesRepository, CategoriesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
