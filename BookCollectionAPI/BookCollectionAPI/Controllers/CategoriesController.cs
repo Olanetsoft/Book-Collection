@@ -46,5 +46,67 @@ namespace BookCollectionAPI.Controllers
 
             return Ok(categoriesDto);
         }
-    }
+
+        // api/categories/categoryId
+        [HttpGet("{categoryId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(CountryDto))]
+        [ProducesResponseType(404)]
+
+        public IActionResult GetCategory(int categoryId)
+        {
+            //check if exist
+            if (!_categoriesRepository.CategoryExists(categoryId))
+                return NotFound();
+
+            // get category
+            var category = _categoriesRepository.GetCatgory(categoryId);
+
+
+            //Validate if the model state is valid
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // using categories dto to return only the needed value
+            var categorieDto = new CategoriesDto()
+            {
+                Id = category.Id,
+                Name = category.Name
+            };
+
+
+            return Ok(categorieDto);
+        }
+
+        // api/categories/books/categoryId
+        [HttpGet("books/{categoryId}")]
+        [ProducesResponseType(400)]
+        //[ProducesResponseType(200, Type = typeof(CountryDto))]
+        [ProducesResponseType(404)]
+
+        public IActionResult GetBooksForCategory(int categoryId)
+        {
+            ////check if exist
+            //if (!_countryRepository.CountryExists(countryId))
+            //    return NotFound();
+
+            // get country
+            var books = _categoriesRepository.GetBooksForCategory(categoryId);
+
+
+            //Validate if the model state is valid
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            //// using categories dto to return only the needed value
+            //var countryDto = new CountryDto()
+            //{
+            //    Id = books.Id,
+            //    Name = books.Name
+            //};
+
+
+            return Ok(books);
+
+        }
 }

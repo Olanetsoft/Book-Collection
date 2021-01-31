@@ -24,7 +24,7 @@ namespace BookCollectionAPI.Services
 
         public ICollection<BookCategory> GetBooksForCategory(int categoryId)
         {
-            throw new NotImplementedException();
+            return _categoryContext.BookCategories.Where(c => c.CategoryId == categoryId).ToList();
         }
 
         public ICollection<Category> GetCategories()
