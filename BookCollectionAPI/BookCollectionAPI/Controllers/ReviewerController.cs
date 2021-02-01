@@ -22,6 +22,7 @@ namespace BookCollectionAPI.Controllers
         }
 
 
+
         // api/reviewer
         [HttpGet]
         [ProducesResponseType(400)]
@@ -59,6 +60,10 @@ namespace BookCollectionAPI.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReviewerDto>))]
         public IActionResult GetReviewer(int reviewerId)
         {
+            //check if exist
+            if (!_reviewerRepository.ReviewerExists(reviewerId))
+                return NotFound();
+
             // get reviewer
             var reviewer = _reviewerRepository.GetReviewer(reviewerId);
 
@@ -80,12 +85,17 @@ namespace BookCollectionAPI.Controllers
 
 
 
+
         // api/reviewer/reviewId/reviews
         [HttpGet("{reviewerId}/reviews")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReviewDto>))]
         public IActionResult GetReviewsByReviewer(int reviewerId)
         {
+            //check if exist
+            if (!_reviewerRepository.ReviewerExists(reviewerId))
+                return NotFound();
+
             // get reviews
             var reviews = _reviewerRepository.GetReviewsByReviewer(reviewerId);
 
