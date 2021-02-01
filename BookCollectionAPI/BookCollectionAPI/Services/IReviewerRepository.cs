@@ -12,9 +12,9 @@ namespace BookCollectionAPI.Services
 
         Reviewer GetReviewer(int reviewerId);
 
-        ICollection<Review> GetAllReviewsByReviewer(int reviewerId);
+        ICollection<Review> GetReviewsByReviewer(int reviewerId);
 
-        ICollection<Reviewer> GetAllReviewersOfAReview(int reviewId);
+        Reviewer GetReviewersOfAReview(int reviewId);
 
         bool ReviewerExists(int reviewerId);
     }
