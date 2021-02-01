@@ -50,8 +50,8 @@ namespace BookCollectionAPI.Controllers
         // api/categories/categoryId
         [HttpGet("{categoryId}")]
         [ProducesResponseType(400)]
-        [ProducesResponseType(200, Type = typeof(CountryDto))]
         [ProducesResponseType(404)]
+        [ProducesResponseType(200, Type = typeof(CountryDto))]
 
         public IActionResult GetCategory(int categoryId)
         {
@@ -78,6 +78,7 @@ namespace BookCollectionAPI.Controllers
             return Ok(categorieDto);
         }
 
+        // TO DO 
         //// api/categories/categoryId
         //[HttpGet("{categoryId}")]
         //[ProducesResponseType(400)]
@@ -113,8 +114,8 @@ namespace BookCollectionAPI.Controllers
         // api/categories/books/bookId
         [HttpGet("books/{bookId}")]
         [ProducesResponseType(400)]
-        [ProducesResponseType(200, Type = typeof(CategoriesDto))]
         [ProducesResponseType(404)]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CategoriesDto>))]
 
         public IActionResult GetAllCategoriesForABook(int bookId)
         {
