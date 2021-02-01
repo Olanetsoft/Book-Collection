@@ -20,6 +20,9 @@ namespace BookCollectionAPI.Controllers
             _countryRepository = countryRepository;
         }
 
+
+
+        // GET Countries
         // api/countries
         [HttpGet]
         [ProducesResponseType(400)]
@@ -48,6 +51,8 @@ namespace BookCollectionAPI.Controllers
         }
 
 
+
+        // GET a Country
         // api/countries/countryId
         [HttpGet("{countryId}")]
         [ProducesResponseType(400)]
@@ -80,6 +85,8 @@ namespace BookCollectionAPI.Controllers
         }
 
 
+
+        // GET Country of an author
         // api/countries/authors/authorId
         [HttpGet("authors/{authorId}")]
         [ProducesResponseType(400)]
@@ -110,5 +117,46 @@ namespace BookCollectionAPI.Controllers
 
             return Ok(countryDto);
         }
+
+
+
+        // GET Authors From a Country
+        // api/countries/countryId/authors
+        [HttpGet("{countryId}/authors")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<AuthorDto>))]
+
+        public IActionResult GetAuthorsFromACountry(int countryId)
+        {
+            //check if exist
+            if (!_countryRepository.CountryExists(countryId))
+                return NotFound();
+
+            // get authors
+            var authors = _countryRepository.GetAuthorsFromACountry(countryId);
+
+
+            //Validate if the model state is valid
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // using authors dto to return only the needed value
+            var authorsDto = new List<AuthorDto>();
+
+            foreach(var author in authors)
+            {
+                authorsDto.Add(new AuthorDto
+                {
+                    Id = author.Id,
+                    FirstName = author.FirstName,
+                    LastName = author.LastName
+                });
+            }
+
+
+            return Ok(authorsDto);
+        }
+
     }
 }
