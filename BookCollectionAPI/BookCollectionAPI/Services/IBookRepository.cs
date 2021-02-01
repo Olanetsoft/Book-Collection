@@ -10,17 +10,17 @@ namespace BookCollectionAPI.Services
     {
         ICollection<Book> GetBooks();
 
-        Book GetBookById(int bookId);
+        Book GetBook(int bookId);
 
-        Book GetBookByISBN(int isbn);
-
-
-        bool BookExistsById(int reviewerId);
-
-        bool BookExistsByISBN(int isbn);
-
-        bool IsDuplicateISBN(int isbn);
+        Book GetBook(string isbn);
 
         decimal GetBookRating(int bookId);
+
+        bool BookExists(int bookId);
+
+        bool BookExists(string isbn);
+
+        bool IsDuplicateISBN(int bookId, string isbn);
+
     }
 }
