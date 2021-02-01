@@ -9,9 +9,9 @@ namespace BookCollectionAPI.Services
     public interface ICategoriesRepository
     {
         ICollection<Category> GetCategories();
-        Category GetCatgory(int categoryId);
-        ICollection<BookCategory> GetCategoriesOfABook(int bookId);
-        ICollection<BookCategory> GetBooksForCategory(int categoryId);
+        Category GetCategory(int categoryId);
+        ICollection<Category> GetAllCategoriesOfABook(int bookId);
+        ICollection<Book> GetBooksForCategory(int categoryId);
         bool CategoryExists(int categoryId);
     }
 }

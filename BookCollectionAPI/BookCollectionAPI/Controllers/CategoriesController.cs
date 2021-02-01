@@ -60,7 +60,7 @@ namespace BookCollectionAPI.Controllers
                 return NotFound();
 
             // get category
-            var category = _categoriesRepository.GetCatgory(categoryId);
+            var category = _categoriesRepository.GetCategory(categoryId);
 
 
             //Validate if the model state is valid
@@ -78,35 +78,71 @@ namespace BookCollectionAPI.Controllers
             return Ok(categorieDto);
         }
 
-        // api/categories/books/categoryId
-        [HttpGet("books/{categoryId}")]
+        //// api/categories/categoryId
+        //[HttpGet("{categoryId}")]
+        //[ProducesResponseType(400)]
+        ////[ProducesResponseType(200, Type = typeof(CountryDto))]
+        //[ProducesResponseType(404)]
+
+        //public IActionResult GetAllBooksForCategory(int categoryId)
+        //{
+        //    ////check if exist
+        //    //if (!_countryRepository.CountryExists(countryId))
+        //    //    return NotFound();
+
+        //    // get country
+        //    var books = _categoriesRepository.GetBooksForCategory(categoryId);
+
+
+        //    //Validate if the model state is valid
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+
+        //    //// using categories dto to return only the needed value
+        //    //var countryDto = new CountryDto()
+        //    //{
+        //    //    Id = books.Id,
+        //    //    Name = books.Name
+        //    //};
+
+
+        //    return Ok(books);
+
+        //}
+
+        // api/categories/books/bookId
+        [HttpGet("books/{bookId}")]
         [ProducesResponseType(400)]
-        //[ProducesResponseType(200, Type = typeof(CountryDto))]
+        [ProducesResponseType(200, Type = typeof(CategoriesDto))]
         [ProducesResponseType(404)]
 
-        public IActionResult GetBooksForCategory(int categoryId)
+        public IActionResult GetAllCategoriesForABook(int bookId)
         {
             ////check if exist
             //if (!_countryRepository.CountryExists(countryId))
             //    return NotFound();
 
-            // get country
-            var books = _categoriesRepository.GetBooksForCategory(categoryId);
+            // get categories
+            var categories = _categoriesRepository.GetAllCategoriesOfABook(bookId);
 
 
             //Validate if the model state is valid
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            //// using categories dto to return only the needed value
-            //var countryDto = new CountryDto()
-            //{
-            //    Id = books.Id,
-            //    Name = books.Name
-            //};
+            var categoriesDto = new List<CategoriesDto>();
+            // using categories dto to return only the needed value
+            foreach (var category in categories)
+            {
+                categoriesDto.Add(new CategoriesDto
+                {
+                    Id = category.Id,
+                    Name = category.Name
+                });
+            }
 
 
-            return Ok(books);
-
+            return Ok(categoriesDto);
         }
+    }
 }

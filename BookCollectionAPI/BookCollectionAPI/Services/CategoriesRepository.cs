@@ -22,24 +22,24 @@ namespace BookCollectionAPI.Services
             return _categoryContext.Countries.Any(c => c.Id == categoryId);
         }
 
-        public ICollection<BookCategory> GetBooksForCategory(int categoryId)
-        {
-            return _categoryContext.BookCategories.Where(c => c.CategoryId == categoryId).ToList();
-        }
-
         public ICollection<Category> GetCategories()
         {
             return _categoryContext.Categories.OrderBy(c => c.Name).ToList();
         }
 
-        public ICollection<BookCategory> GetCategoriesOfABook(int bookId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Category GetCatgory(int categoryId)
+        public Category GetCategory(int categoryId)
         {
             return _categoryContext.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
+        }
+
+        ICollection<Book> ICategoriesRepository.GetBooksForCategory(int categoryId)
+        {
+            return _categoryContext.BookCategories.Where(c => c.CategoryId == categoryId).Select(b => b.Book).ToList();
+        }
+
+        ICollection<Category> ICategoriesRepository.GetAllCategoriesOfABook(int bookId)
+        {
+            return _categoryContext.BookCategories.Where(b => b.BookId == bookId).Select(c => c.Category).ToList();
         }
     }
 }
