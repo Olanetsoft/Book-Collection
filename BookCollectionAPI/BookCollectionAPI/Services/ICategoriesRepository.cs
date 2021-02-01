@@ -11,7 +11,7 @@ namespace BookCollectionAPI.Services
         ICollection<Category> GetCategories();
         Category GetCategory(int categoryId);
         ICollection<Category> GetAllCategoriesOfABook(int bookId);
-        ICollection<Book> GetBooksForCategory(int categoryId);
+        ICollection<Book> GetAllBooksForCategory(int categoryId);
         bool CategoryExists(int categoryId);
     }
 }

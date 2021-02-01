@@ -32,7 +32,7 @@ namespace BookCollectionAPI.Services
             return _categoryContext.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
         }
 
-        ICollection<Book> ICategoriesRepository.GetBooksForCategory(int categoryId)
+        ICollection<Book> ICategoriesRepository.GetAllBooksForCategory(int categoryId)
         {
             return _categoryContext.BookCategories.Where(c => c.CategoryId == categoryId).Select(b => b.Book).ToList();
         }
