@@ -12,9 +12,9 @@ namespace BookCollectionAPI.Services
 
         Review GetReview(int reviewId);
 
-        ICollection<Review> GetAllReviewsOfABook(int bookId);
+        ICollection<Review> GetReviewsOfABook(int bookId);
 
-        ICollection<Book> GetbookOfAReview(int reviewId);
+        Book GetbookOfAReview(int reviewId);
 
         bool ReviewExists(int reviewId);
     }
