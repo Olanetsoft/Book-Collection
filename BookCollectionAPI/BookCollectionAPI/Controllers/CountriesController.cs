@@ -1,4 +1,5 @@
 ﻿using BookCollectionAPI.Dtos;
+using BookCollectionAPI.Models;
 using BookCollectionAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,7 +29,7 @@ namespace BookCollectionAPI.Controllers
         // api/countries
         [HttpGet]
         [ProducesResponseType(400)]
-        [ProducesResponseType(200,Type = typeof(IEnumerable<CountryDto>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CountryDto>))]
         public IActionResult GetCountries()
         {
             // get countries
@@ -40,7 +41,7 @@ namespace BookCollectionAPI.Controllers
 
             // using countries dto to return only the needed value
             var countriesDto = new List<CountryDto>();
-            foreach(var country in countries)
+            foreach (var country in countries)
             {
                 countriesDto.Add(new CountryDto
                 {
@@ -76,12 +77,12 @@ namespace BookCollectionAPI.Controllers
                 return BadRequest(ModelState);
 
             // using countries dto to return only the needed value
-            var countryDto = new CountryDto() 
-            { 
+            var countryDto = new CountryDto()
+            {
                 Id = country.Id,
                 Name = country.Name
             };
-         
+
 
             return Ok(countryDto);
         }
@@ -146,7 +147,7 @@ namespace BookCollectionAPI.Controllers
             // using authors dto to return only the needed value
             var authorsDto = new List<AuthorDto>();
 
-            foreach(var author in authors)
+            foreach (var author in authors)
             {
                 authorsDto.Add(new AuthorDto
                 {
@@ -160,5 +161,35 @@ namespace BookCollectionAPI.Controllers
             return Ok(authorsDto);
         }
 
+
+
+
+        // CREATE country
+        // api/countries
+        [HttpPost]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CountryDto>))]
+        public IActionResult CreateCountry([FromBody] Country countryToCreate)
+        {
+            // Check if country to create is not null
+            if (countryToCreate == null)
+                return BadRequest(ModelState);
+
+            // Check duplicate
+            var country = _countryRepository.GetCountries()
+                .Where(c => c.Name.Trim().ToUpper() == countryToCreate.Name.Trim().ToUpper())
+                .FirstOrDefault();
+
+            // Return duplicate error
+            if(country != null)
+            {
+                ModelState.AddModelError("", $"Country {countryToCreate.Name} already exist");
+                return StatusCode(422, ModelState);
+            }
+
+            // Validate if something else happens
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+        }
     }
 }
