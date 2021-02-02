@@ -122,5 +122,35 @@ namespace BookCollectionAPI.Controllers
         }
 
 
+        // api/reviews/bookId/book
+        [HttpGet("{reviewId}/book")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(BookDto))]
+        public IActionResult GetbookOfAReview(int reviewId)
+        {
+            ////check if exist
+            //if (!_reviewRepository.ReviewExists(reviewId))
+            //    return NotFound();
+
+            // get book
+            var book = _reviewRepository.GetbookOfAReview(reviewId);
+
+            //Validate if the model state is valid
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // using book dto to return only the needed value
+            var bookDto = new BookDto()
+            {
+                Id = book.Id,
+                Isbn= book.Isbn,
+                Title = book.Title,
+                DatePublished = book.DatePublished
+            };
+
+
+            return Ok(bookDto);
+        }
+
     }
 }
