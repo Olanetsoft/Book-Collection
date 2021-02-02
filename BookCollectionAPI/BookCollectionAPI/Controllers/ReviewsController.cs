@@ -16,13 +16,18 @@ namespace BookCollectionAPI.Controllers
     {
         private IReviewerRepository _reviewerRepository;
         private IReviewRepository _reviewRepository;
+        private IBookRepository _bookRepository;
 
         // Constructor
-        public ReviewsController(IReviewerRepository reviewerRepository, IReviewRepository reviewRepository)
+        public ReviewsController(IReviewerRepository reviewerRepository, IReviewRepository reviewRepository, IBookRepository bookRepository)
         {
             _reviewerRepository = reviewerRepository;
             _reviewRepository = reviewRepository;
+            _bookRepository = bookRepository;
         }
+
+
+
 
         // api/reviewes
         [HttpGet]
@@ -38,10 +43,10 @@ namespace BookCollectionAPI.Controllers
                 return BadRequest(ModelState);
 
             // using reviews dto to return only the needed value
-            var reviewDto = new List<ReviewDto>();
+            var reviewsDto = new List<ReviewDto>();
             foreach (var review in reviews)
             {
-                reviewDto.Add(new ReviewDto
+                reviewsDto.Add(new ReviewDto
                 {
                     Id = review.Id,
                     Headline = review.Headline,
@@ -50,13 +55,13 @@ namespace BookCollectionAPI.Controllers
                 });
             }
 
-            return Ok(reviewDto);
+            return Ok(reviewsDto);
         }
 
 
 
-        // api/reviews/reviewId/review
-        [HttpGet("{reviewId}/review")]
+        // api/reviews/reviewId
+        [HttpGet("{reviewId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(ReviewDto))]
         public IActionResult GetReview(int reviewId)
@@ -88,15 +93,15 @@ namespace BookCollectionAPI.Controllers
 
 
 
-        // api/reviews/bookId/reviews
-        [HttpGet("{bookId}/reviews")]
+        // api/reviews/books/bookId
+        [HttpGet("books/{bookId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReviewDto>))]
         public IActionResult GetReviewsOfABook(int bookId)
         {
-            ////check if exist
-            //if (!_reviewRepository.ReviewExists(bookId))
-            //    return NotFound();
+            //check if exist
+            if (!_bookRepository.BookExists(bookId))
+                return NotFound();
 
             // get reviews
             var reviews = _reviewRepository.GetReviewsOfABook(bookId);
@@ -106,10 +111,10 @@ namespace BookCollectionAPI.Controllers
                 return BadRequest(ModelState);
 
             // using reviews dto to return only the needed value
-            var reviewDto = new List<ReviewDto>();
+            var reviewsDto = new List<ReviewDto>();
             foreach (var review in reviews)
             {
-                reviewDto.Add(new ReviewDto
+                reviewsDto.Add(new ReviewDto
                 {
                     Id = review.Id,
                     Headline = review.Headline,
@@ -118,19 +123,19 @@ namespace BookCollectionAPI.Controllers
                 });
             }
 
-            return Ok(reviewDto);
+            return Ok(reviewsDto);
         }
 
 
-        // api/reviews/bookId/book
+        // api/reviews/reviewId/book
         [HttpGet("{reviewId}/book")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(BookDto))]
         public IActionResult GetbookOfAReview(int reviewId)
         {
-            ////check if exist
-            //if (!_reviewRepository.ReviewExists(reviewId))
-            //    return NotFound();
+            //check if exist
+            if (!_reviewRepository.ReviewExists(reviewId))
+                return NotFound();
 
             // get book
             var book = _reviewRepository.GetbookOfAReview(reviewId);

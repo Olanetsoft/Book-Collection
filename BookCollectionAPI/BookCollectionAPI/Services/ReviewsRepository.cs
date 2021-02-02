@@ -38,7 +38,7 @@ namespace BookCollectionAPI.Services
 
         public ICollection<Review> GetReviewsOfABook(int bookId)
         {
-            return _reviewContext.Reviews.Where(r => r.Id == bookId).ToList();
+            return _reviewContext.Reviews.Where(b => b.Book.Id == bookId).ToList();
         }
 
         public bool ReviewExists(int reviewId)

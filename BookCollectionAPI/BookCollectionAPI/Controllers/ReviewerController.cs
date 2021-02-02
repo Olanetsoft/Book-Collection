@@ -121,7 +121,6 @@ namespace BookCollectionAPI.Controllers
             return Ok(reviewDto);
         }
 
-        // TO DO - need to test after Ireview repository is implemented
         // api/reviewer/reviewId/reviewer
         [HttpGet("{reviewId}/reviewer")]
         [ProducesResponseType(400)]
