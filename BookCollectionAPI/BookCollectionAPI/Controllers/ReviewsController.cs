@@ -55,8 +55,8 @@ namespace BookCollectionAPI.Controllers
 
 
 
-        // api/reviews/reviewId
-        [HttpGet("{reviewId}")]
+        // api/reviews/reviewId/review
+        [HttpGet("{reviewId}/review")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(ReviewDto))]
         public IActionResult GetReview(int reviewId)
@@ -81,6 +81,42 @@ namespace BookCollectionAPI.Controllers
                 Rating = review.Rating
             };
 
+
+            return Ok(reviewDto);
+        }
+
+
+
+
+        // api/reviews/bookId/reviews
+        [HttpGet("{bookId}/reviews")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReviewDto>))]
+        public IActionResult GetReviewsOfABook(int bookId)
+        {
+            ////check if exist
+            //if (!_reviewRepository.ReviewExists(bookId))
+            //    return NotFound();
+
+            // get reviews
+            var reviews = _reviewRepository.GetReviewsOfABook(bookId);
+
+            //Validate if the model state is valid
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // using reviews dto to return only the needed value
+            var reviewDto = new List<ReviewDto>();
+            foreach (var review in reviews)
+            {
+                reviewDto.Add(new ReviewDto
+                {
+                    Id = review.Id,
+                    Headline = review.Headline,
+                    ReviewText = review.ReviewText,
+                    Rating = review.Rating
+                });
+            }
 
             return Ok(reviewDto);
         }

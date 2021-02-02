@@ -56,7 +56,7 @@ namespace BookCollectionAPI.Controllers
 
 
 
-        // api/reviewer
+        // api/reviewer/reviewId
         [HttpGet("{reviewerId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(ReviewerDto))]
