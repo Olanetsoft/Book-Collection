@@ -57,7 +57,7 @@ namespace BookCollectionAPI.Controllers
 
         // GET a Country
         // api/countries/countryId
-        [HttpGet("{countryId}")]
+        [HttpGet("{countryId}", Name ="GetCountry")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(CountryDto))]
         [ProducesResponseType(404)]
@@ -168,7 +168,9 @@ namespace BookCollectionAPI.Controllers
         // api/countries
         [HttpPost]
         [ProducesResponseType(400)]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<CountryDto>))]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(201, Type = typeof(Country))]
         public IActionResult CreateCountry([FromBody] Country countryToCreate)
         {
             // Check if country to create is not null
@@ -190,6 +192,14 @@ namespace BookCollectionAPI.Controllers
             // Validate if something else happens
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (!_countryRepository.CreateCountry(countryToCreate))
+            {
+                ModelState.AddModelError("", $"Something went wrong saving {countryToCreate.Name}");
+                return StatusCode(500, ModelState);
+            }
+
+            return CreatedAtRoute("GetCountry", new { countryId = countryToCreate.Id }, countryToCreate);
         }
     }
 }
