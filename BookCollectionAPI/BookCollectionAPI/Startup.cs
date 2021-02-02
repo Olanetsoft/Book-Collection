@@ -38,6 +38,10 @@ namespace BookCollectionAPI
 
             // service for reviewer
             services.AddScoped<IReviewerRepository, ReviewerRepository>();
+
+            // service for reviews
+            services.AddScoped<IReviewRepository, ReviewsRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
