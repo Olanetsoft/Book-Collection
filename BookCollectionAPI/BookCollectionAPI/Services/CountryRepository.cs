@@ -22,6 +22,17 @@ namespace BookCollectionAPI.Services
             return _countryContext.Countries.Any(c => c.Id == countryId);
         }
 
+        public bool CreateCountry(Country country)
+        {
+            _countryContext.Add(country);
+            return Save();
+        }
+
+        public bool DeleteCountry(Country country)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<Author> GetAuthorsFromACountry(int countryId)
         {
             return _countryContext.Authors.Where(c => c.Country.Id == countryId).ToList();
@@ -48,6 +59,17 @@ namespace BookCollectionAPI.Services
                                                 && c.Id != countryId).FirstOrDefault();
 
             return country == null ? false : true;
+        }
+
+        public bool Save()
+        {
+            var saved = _countryContext.SaveChanges();
+            return saved > 0 ? true : false;
+        }
+
+        public bool UpdateCountry(Country country)
+        {
+            throw new NotImplementedException();
         }
     }
 }
