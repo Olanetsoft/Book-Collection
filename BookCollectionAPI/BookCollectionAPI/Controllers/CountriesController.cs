@@ -87,7 +87,7 @@ namespace BookCollectionAPI.Controllers
         }
 
 
-
+        // TO DO- needs test after implementing IAuthor repository
         // GET Country of an author
         // api/countries/authors/authorId
         [HttpGet("authors/{authorId}")]
@@ -98,7 +98,7 @@ namespace BookCollectionAPI.Controllers
         public IActionResult GetCountryOfAnAuthor(int authorId)
         {
             //check if exist
-            if (!_countryRepository.CountryExists(countryId))
+            if (!_authorRepository.AuthorExists(authorId))
                 return NotFound();
 
             // get country

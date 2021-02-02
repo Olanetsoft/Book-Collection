@@ -128,7 +128,6 @@ namespace BookCollectionAPI.Controllers
         [ProducesResponseType(200, Type = typeof(ReviewDto))]
         public IActionResult GetReviewersOfAReview(int reviewId)
         {
-            // TO DO 
             //check if exist
             if (!_reviewRepository.ReviewExists(reviewId))
                 return NotFound();
