@@ -30,7 +30,8 @@ namespace BookCollectionAPI.Services
 
         public bool DeleteCountry(Country country)
         {
-            throw new NotImplementedException();
+            _countryContext.Remove(country);
+            return Save();
         }
 
         public ICollection<Author> GetAuthorsFromACountry(int countryId)
@@ -64,12 +65,13 @@ namespace BookCollectionAPI.Services
         public bool Save()
         {
             var saved = _countryContext.SaveChanges();
-            return saved > 0 ? true : false;
+            return saved >= 0 ? true : false;
         }
 
         public bool UpdateCountry(Country country)
         {
-            throw new NotImplementedException();
+            _countryContext.Update(country);
+            return Save();
         }
     }
 }
