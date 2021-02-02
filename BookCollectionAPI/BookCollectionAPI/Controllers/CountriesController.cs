@@ -13,11 +13,13 @@ namespace BookCollectionAPI.Controllers
     public class CountriesController : Controller
     {
         private ICountryRepository _countryRepository;
+        private IAuthorRepository _authorRepository;
 
         // Constructor
-        public CountriesController(ICountryRepository countryRepository)
+        public CountriesController(ICountryRepository countryRepository, IAuthorRepository authorRepository)
         {
             _countryRepository = countryRepository;
+            _authorRepository = authorRepository;
         }
 
 
@@ -95,9 +97,9 @@ namespace BookCollectionAPI.Controllers
 
         public IActionResult GetCountryOfAnAuthor(int authorId)
         {
-            ////check if exist
-            //if (!_countryRepository.CountryExists(countryId))
-            //    return NotFound();
+            //check if exist
+            if (!_countryRepository.CountryExists(countryId))
+                return NotFound();
 
             // get country
             var country = _countryRepository.GetCountryOfAnAuthor(authorId);

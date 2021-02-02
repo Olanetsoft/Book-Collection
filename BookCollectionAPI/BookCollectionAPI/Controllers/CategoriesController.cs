@@ -13,11 +13,13 @@ namespace BookCollectionAPI.Controllers
     public class CategoriesController : Controller
     {
         private ICategoriesRepository _categoriesRepository;
+        private IBookRepository _bookRepository;
 
         // Constructor
-        public CategoriesController(ICategoriesRepository categoriesRepository)
+        public CategoriesController(ICategoriesRepository categoriesRepository, IBookRepository bookRepository)
         {
             _categoriesRepository = categoriesRepository;
+            _bookRepository = bookRepository;
         }
 
 
@@ -87,6 +89,7 @@ namespace BookCollectionAPI.Controllers
 
 
 
+        // TO DO - needs test after implementing IBookRepository
         // api/categories/books/bookId
         [HttpGet("books/{bookId}")]
         [ProducesResponseType(400)]
@@ -95,9 +98,9 @@ namespace BookCollectionAPI.Controllers
 
         public IActionResult GetAllCategoriesForABook(int bookId)
         {
-            ////check if exist
-            //if (!_countryRepository.CountryExists(countryId))
-            //    return NotFound();
+            //check if exist
+            if (!_bookRepository.BookExists(bookId))
+                return NotFound();
 
             // get categories
             var categories = _categoriesRepository.GetAllCategoriesOfABook(bookId);

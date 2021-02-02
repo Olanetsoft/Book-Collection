@@ -19,27 +19,33 @@ namespace BookCollectionAPI.Services
 
         public Reviewer GetReviewer(int reviewerId)
         {
-            return _reviewerContext.Reviewers.Where(c => c.Id == reviewerId).FirstOrDefault();
+            return _reviewerContext.Reviewers.Where(r => r.Id == reviewerId).FirstOrDefault();
         }
 
         public ICollection<Reviewer> GetReviewers()
         {
-            return _reviewerContext.Reviewers.OrderBy(c => c.FirstName).ToList();
+            return _reviewerContext.Reviewers.OrderBy(r => r.FirstName).ToList();
         }
 
-        public Reviewer GetReviewersOfAReview(int reviewId)
+        public Reviewer GetReviewerOfAReview(int reviewId)
         {
-            return _reviewerContext.Reviews.Where(c => c.Id == reviewId).Select(r => r.Reviewer).FirstOrDefault();
+            // Get the reviwer ID where is matches the arg in the reviews
+            var reviewerId = _reviewerContext.Reviews.Where(r => r.Id == reviewId).Select(rr => rr.Reviewer.Id).FirstOrDefault();
+
+            // Now use the reviewerID to find the reviewers
+            return _reviewerContext.Reviewers.Where(r => r.Id == reviewerId).FirstOrDefault();
+
+
         }
 
         public ICollection<Review> GetReviewsByReviewer(int reviewerId)
         {
-            return _reviewerContext.Reviews.Where(c => c.Id == reviewerId).ToList();
+            return _reviewerContext.Reviews.Where(r => r.Id == reviewerId).ToList();
         }
 
         public bool ReviewerExists(int reviewerId)
         {
-            return _reviewerContext.Reviewers.Any(c => c.Id == reviewerId);
+            return _reviewerContext.Reviewers.Any(r => r.Id == reviewerId);
         }
     }
 }

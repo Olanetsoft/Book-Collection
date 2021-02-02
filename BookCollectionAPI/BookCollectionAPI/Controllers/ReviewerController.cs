@@ -14,13 +14,15 @@ namespace BookCollectionAPI.Controllers
     public class ReviewerController : Controller
     {
         private IReviewerRepository _reviewerRepository;
+        private IReviewRepository _reviewRepository;
 
         // Constructor
-        public ReviewerController(IReviewerRepository reviewerRepository)
+        public ReviewerController(IReviewerRepository reviewerRepository, IReviewRepository reviewRepository)
         {
             _reviewerRepository = reviewerRepository;
+            _reviewRepository = reviewRepository;
         }
-
+        // 639226325888
 
 
         // api/reviewer
@@ -119,17 +121,20 @@ namespace BookCollectionAPI.Controllers
             return Ok(reviewDto);
         }
 
-
-        // api/reviewer/reviewId/reviewers
-        [HttpGet("{reviewId}/reviewers")]
+        // TO DO - need to test after Ireview repository is implemented
+        // api/reviewer/reviewId/reviewer
+        [HttpGet("{reviewId}/reviewer")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(ReviewDto))]
         public IActionResult GetReviewersOfAReview(int reviewId)
         {
-           // TO DO
+            // TO DO 
+            //check if exist
+            if (!_reviewRepository.ReviewExists(reviewId))
+                return NotFound();
 
             // get reviewer
-            var reviewer = _reviewerRepository.GetReviewersOfAReview(reviewId);
+            var reviewer = _reviewerRepository.GetReviewerOfAReview(reviewId);
 
             //Validate if the model state is valid
             if (!ModelState.IsValid)
