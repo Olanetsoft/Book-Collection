@@ -87,7 +87,7 @@ namespace BookCollectionAPI.Controllers
         }
 
 
-        // TO DO- needs test after implementing IAuthor repository
+
         // GET Country of an author
         // api/countries/authors/authorId
         [HttpGet("authors/{authorId}")]
