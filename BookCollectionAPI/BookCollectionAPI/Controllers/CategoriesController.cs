@@ -89,7 +89,7 @@ namespace BookCollectionAPI.Controllers
 
 
 
-        // TO DO - needs test after implementing IBookRepository
+        
         // api/categories/books/bookId
         [HttpGet("books/{bookId}")]
         [ProducesResponseType(400)]
