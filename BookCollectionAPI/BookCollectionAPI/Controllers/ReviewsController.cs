@@ -62,7 +62,7 @@ namespace BookCollectionAPI.Controllers
 
 
         // api/reviews/reviewId
-        [HttpGet("{reviewId}")]
+        [HttpGet("{reviewId}", Name ="GetReview")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(ReviewDto))]
         public IActionResult GetReview(int reviewId)
