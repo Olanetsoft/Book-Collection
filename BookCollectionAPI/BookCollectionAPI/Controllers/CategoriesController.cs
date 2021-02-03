@@ -57,7 +57,7 @@ namespace BookCollectionAPI.Controllers
 
 
         // api/categories/categoryId
-        [HttpGet("{categoryId}")]
+        [HttpGet("{categoryId}", Name = "GetCategory")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(200, Type = typeof(CountryDto))]
@@ -168,6 +168,7 @@ namespace BookCollectionAPI.Controllers
             return Ok(booksDto);
 
         }
+
 
 
         //api/categories
